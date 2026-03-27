@@ -1,0 +1,1586 @@
+<!doctype html>
+<html lang="fr" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Business &amp; Marketing Numérique – FP Errachidia</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Sora:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      scroll-behavior: smooth;
+    }
+
+    :root {
+      --background-color: #07111f;
+      --surface-color: #0f1e34;
+      --text-color: #e6f1ff;
+      --primary-action: #3b82f6;
+      --secondary-action: #7dd3fc;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(59,130,246,0.28), transparent 26%),
+        radial-gradient(circle at 80% 10%, rgba(125,211,252,0.14), transparent 24%),
+        radial-gradient(circle at 50% 80%, rgba(37,99,235,0.18), transparent 28%),
+        linear-gradient(145deg, #040b16 0%, #081326 40%, #0a1730 100%);
+      color: var(--text-color);
+      font-family: "Manrope", ui-sans-serif, system-ui, sans-serif;
+      overflow: hidden;
+    }
+
+    .main-wrapper {
+      height: 100%;
+      width: 100%;
+      overflow: auto;
+      position: relative;
+    }
+
+    .glass {
+      background: linear-gradient(180deg, rgba(15,30,52,0.88), rgba(10,20,36,0.78));
+      border: 1px solid rgba(125, 211, 252, 0.16);
+      box-shadow: 0 10px 40px rgba(2, 12, 27, 0.35);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .hero-orb {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(24px);
+      opacity: 0.6;
+      animation: floaty 10s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      background-image:
+        linear-gradient(rgba(125,211,252,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(125,211,252,0.07) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0.18));
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0.18));
+    }
+
+    .section-title {
+      font-family: "Sora", "Manrope", sans-serif;
+      letter-spacing: -0.03em;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px) scale(0.98);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .card-hover {
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 18px 50px rgba(59,130,246,0.18);
+      border-color: rgba(125,211,252,0.35);
+    }
+
+    .glow-button {
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    }
+
+    .glow-button:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 0 0 1px rgba(125,211,252,0.18), 0 14px 35px rgba(59,130,246,0.35);
+    }
+
+    .glow-button::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.2), transparent);
+      transform: translateX(-120%);
+      transition: transform 0.7s ease;
+    }
+
+    .glow-button:hover::after {
+      transform: translateX(120%);
+    }
+
+    .timeline-line {
+      background: linear-gradient(to bottom, rgba(59,130,246,0.15), rgba(125,211,252,0.9), rgba(59,130,246,0.15));
+    }
+
+    .news-slide {
+      display: none;
+    }
+
+    .news-slide.active {
+      display: block;
+      animation: fadeUp 0.55s ease;
+    }
+
+    .floating {
+      animation: floaty 7s ease-in-out infinite;
+    }
+
+    .pulse-soft {
+      animation: pulseSoft 2.8s ease-in-out infinite;
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 1rem;
+      width: max-content;
+      animation: marqueeMove 30s linear infinite;
+    }
+
+    .stat-number {
+      font-family: "Sora", "Manrope", sans-serif;
+    }
+
+    .input-style {
+      background: rgba(9, 20, 37, 0.72);
+      border: 1px solid rgba(125, 211, 252, 0.16);
+      color: var(--text-color);
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+    }
+
+    .input-style:focus {
+      outline: none;
+      border-color: rgba(125, 211, 252, 0.8);
+      box-shadow: 0 0 0 4px rgba(59,130,246,0.15);
+      transform: translateY(-1px);
+    }
+
+    .mini-badge {
+      background: rgba(59,130,246,0.12);
+      border: 1px solid rgba(125,211,252,0.2);
+    }
+
+    .forum-item {
+      transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .forum-item:hover {
+      transform: translateY(-3px);
+      border-color: rgba(125,211,252,0.3);
+      background: rgba(18, 34, 58, 0.88);
+    }
+
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.25);
+      border-top-color: rgba(255,255,255,1);
+      border-radius: 9999px;
+      animation: spin 0.8s linear infinite;
+    }
+
+    .video-frame {
+      background:
+        linear-gradient(135deg, rgba(59,130,246,0.2), rgba(125,211,252,0.08)),
+        rgba(10,20,36,0.92);
+    }
+
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0) translateX(0); }
+      50% { transform: translateY(-18px) translateX(8px); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulseSoft {
+      0%,100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.03); opacity: 0.9; }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes marqueeMove {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+ </head>
+ <body class="h-full">
+  <div id="app" class="main-wrapper w-full">
+   <header class="sticky top-0 z-40 border-b border-white/10 bg-[#06101dcc]/90 backdrop-blur-xl">
+    <div class="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8"><a href="#home" class="flex items-center gap-3">
+      <div class="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5 shadow-lg shadow-blue-900/20"><i data-lucide="graduation-cap" class="h-5 w-5 text-sky-300"></i>
+      </div>
+      <div>
+       <p class="font-['Sora'] text-sm font-bold tracking-wide text-white">Université Moulay Ismail</p>
+       <p class="text-xs text-sky-100/70">FP Errachidia — TBS</p>
+      </div></a>
+     <nav class="hidden items-center gap-6 text-sm text-sky-50/80 lg:flex"><a href="#why" class="hover:text-white transition">Pourquoi</a> <a href="#skills" class="hover:text-white transition">Compétences</a> <a href="#modules" class="hover:text-white transition">Modules</a> <a href="#news" class="hover:text-white transition">Actualités</a> <a href="#community" class="hover:text-white transition">Communauté</a> <a href="#contact" class="hover:text-white transition">Contact</a>
+     </nav><button id="mobileMenuButton" class="rounded-xl border border-white/10 bg-white/5 p-3 text-white lg:hidden" aria-label="Ouvrir le menu"> <i data-lucide="menu" class="h-5 w-5"></i> </button>
+    </div>
+    <div id="mobileMenu" class="hidden border-t border-white/10 px-4 pb-4 pt-2 lg:hidden">
+     <div class="flex flex-col gap-2 text-sm text-sky-50/85"><a href="#why" class="rounded-xl px-3 py-2 hover:bg-white/5">Pourquoi</a> <a href="#skills" class="rounded-xl px-3 py-2 hover:bg-white/5">Compétences</a> <a href="#modules" class="rounded-xl px-3 py-2 hover:bg-white/5">Modules</a> <a href="#news" class="rounded-xl px-3 py-2 hover:bg-white/5">Actualités</a> <a href="#community" class="rounded-xl px-3 py-2 hover:bg-white/5">Communauté</a> <a href="#contact" class="rounded-xl px-3 py-2 hover:bg-white/5">Contact</a>
+     </div>
+    </div>
+   </header>
+   <main class="w-full">
+    <section id="home" class="relative overflow-hidden">
+     <div class="hero-orb left-[8%] top-16 h-36 w-36 bg-blue-500/30"></div>
+     <div class="hero-orb right-[10%] top-28 h-56 w-56 bg-sky-300/20" style="animation-delay: -2s;"></div>
+     <div class="hero-orb left-[38%] top-[38%] h-44 w-44 bg-cyan-400/20" style="animation-delay: -4s;"></div>
+     <div class="hero-grid absolute inset-0 opacity-60"></div>
+     <div class="mx-auto grid w-full max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:px-8 lg:py-24">
+      <div class="relative z-10 flex flex-col justify-center">
+       <div class="reveal inline-flex w-fit items-center gap-2 rounded-full border border-sky-300/15 bg-sky-300/10 px-4 py-2 text-sm text-sky-100"><span class="pulse-soft inline-block h-2.5 w-2.5 rounded-full bg-sky-300"></span> Formation académique et pratique prête pour le futur
+       </div>
+       <h1 id="heroTitle" class="reveal section-title mt-6 max-w-3xl text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl">Bienvenue en E-Business &amp; Marketing Numérique 🚀</h1>
+       <p id="heroSubtitle" class="reveal mt-6 max-w-2xl text-base leading-8 text-sky-50/78 sm:text-lg">Explorez un programme conçu pour préparer les étudiants ambitieux à l'économie numérique à travers la stratégie, la créativité, l'analyse, le commerce en ligne et les projets concrets à l'Université Moulay Ismail – FP Errachidia.</p>
+       <div class="reveal mt-8 flex flex-col gap-4 sm:flex-row"><a id="programButton" href="#why" class="glow-button inline-flex items-center justify-center gap-2 rounded-2xl px-6 py-4 font-semibold text-white"> <i data-lucide="sparkles" class="h-5 w-5"></i> <span>Découvrir le programme</span> </a> <a id="communityButton" href="#community" class="glow-button inline-flex items-center justify-center gap-2 rounded-2xl border border-sky-200/15 bg-white/5 px-6 py-4 font-semibold text-sky-50"> <i data-lucide="users" class="h-5 w-5"></i> <span>Rejoindre la communauté</span> </a>
+       </div>
+       <div class="reveal mt-10 grid max-w-2xl grid-cols-2 gap-4 sm:grid-cols-4">
+        <div class="glass rounded-2xl p-4">
+         <p class="stat-number text-2xl font-extrabold text-white">5+</p>
+         <p class="mt-1 text-sm text-sky-50/70">Compétences numériques clés</p>
+        </div>
+        <div class="glass rounded-2xl p-4">
+         <p class="stat-number text-2xl font-extrabold text-white">7</p>
+         <p class="mt-1 text-sm text-sky-50/70">Modules du semestre 5</p>
+        </div>
+        <div class="glass rounded-2xl p-4">
+         <p class="stat-number text-2xl font-extrabold text-white">6</p>
+         <p class="mt-1 text-sm text-sky-50/70">Professeurs présentés</p>
+        </div>
+        <div class="glass rounded-2xl p-4">
+         <p class="stat-number text-2xl font-extrabold text-white">100%</p>
+         <p class="mt-1 text-sm text-sky-50/70">Mentalité numérique</p>
+        </div>
+       </div>
+      </div>
+      <div class="relative z-10 reveal">
+       <div class="glass floating rounded-[2rem] p-5 sm:p-6">
+        <div class="rounded-[1.5rem] border border-white/10 bg-[#09182d] p-5">
+         <div class="flex items-center justify-between">
+          <div>
+           <p class="text-sm uppercase tracking-[0.25em] text-sky-200/70">Aperçu du Programme</p>
+           <h2 class="mt-2 font-['Sora'] text-2xl font-bold text-white">Le futur numérique commence ici</h2>
+          </div>
+          <div class="rounded-2xl bg-blue-500/15 p-3 text-sky-300"><i data-lucide="bar-chart-3" class="h-7 w-7"></i>
+          </div>
+         </div>
+         <div class="mt-6 space-y-4">
+          <div class="mini-badge rounded-2xl p-4">
+           <div class="flex items-center gap-3"><i data-lucide="shopping-cart" class="h-5 w-5 text-sky-300"></i>
+            <div>
+             <p class="font-semibold text-white">E-commerce</p>
+             <p class="text-sm text-sky-50/70">Modèles commerciaux, plateformes, parcours client</p>
+            </div>
+           </div>
+          </div>
+          <div class="mini-badge rounded-2xl p-4">
+           <div class="flex items-center gap-3"><i data-lucide="megaphone" class="h-5 w-5 text-sky-300"></i>
+            <div>
+             <p class="font-semibold text-white">Marketing numérique</p>
+             <p class="text-sm text-sky-50/70">Planification campagnes, contenu, branding, croissance</p>
+            </div>
+           </div>
+          </div>
+          <div class="mini-badge rounded-2xl p-4">
+           <div class="flex items-center gap-3"><i data-lucide="line-chart" class="h-5 w-5 text-sky-300"></i>
+            <div>
+             <p class="font-semibold text-white">Données &amp; performance</p>
+             <p class="text-sm text-sky-50/70">Recherche, métriques, optimisation et insights</p>
+            </div>
+           </div>
+          </div>
+         </div>
+         <div class="mt-6 rounded-2xl border border-sky-300/15 bg-gradient-to-r from-blue-500/15 to-sky-400/10 p-4">
+          <p class="text-sm font-medium text-sky-100">Un chemin équilibré entre profondeur académique, application pratique et employabilité dans un marché numérique international en évolution.</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section>
+    <section class="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+     <div class="glass overflow-hidden rounded-[2rem] p-4 sm:p-5">
+      <div class="marquee-track">
+       <div class="rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-sky-100">
+        Stratégie E-Business
+       </div>
+       <div class="rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-sky-100">
+        Marketing Numérique
+       </div>
+       <div class="rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-sky-100">
+        Gestion CMS
+       </div>
+       <div class="rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-sky-100">
+        Création de Sites Web
+       </div>
+       <div class="rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-sky-100">
+        Étude de Marché
+       </div>
+       <div class="rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-sky-100">
+        Stratégie Contenu
+       </div>
+       <div class="rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-sky-100">
+        Stratégie E-Business
+       </div>
+       <div class="rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-sky-100">
+        Marketing Numérique
+       </div>
+       <div class="rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-sky-100">
+        Gestion CMS
+       </div>
+       <div class="rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-sky-100">
+        Création de Sites Web
+       </div>
+       <div class="rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-sky-100">
+        Étude de Marché
+       </div>
+       <div class="rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-sky-100">
+        Stratégie Contenu
+       </div>
+      </div>
+     </div>
+    </section>
+    <section id="why" class="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+     <div class="reveal max-w-3xl">
+      <p class="text-sm uppercase tracking-[0.25em] text-sky-300/80">Pourquoi ce programme</p>
+      <h2 id="whyTitle" class="section-title mt-3 text-3xl font-extrabold text-white sm:text-4xl">Pourquoi choisir ce programme ?</h2>
+      <p class="mt-4 text-lg leading-8 text-sky-50/72">Cette formation répond à des besoins réels de transformation numérique avec une vision avant-gardiste, un apprentissage pratique et une pertinence internationale.</p>
+     </div>
+     <div class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+      <article class="glass card-hover reveal rounded-[1.75rem] p-6">
+       <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-500/15 text-sky-300"><i data-lucide="briefcase-business" class="h-7 w-7"></i>
+       </div>
+       <h3 class="mt-5 font-['Sora'] text-xl font-bold text-white">Opportunités de Carrière</h3>
+       <p class="mt-3 text-sm leading-7 text-sky-50/70">Préparez-vous à des rôles en e-commerce, communication numérique, branding en ligne, marketing de performance et coordination de projets numériques.</p>
+      </article>
+      <article class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.05s">
+       <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-500/15 text-sky-300"><i data-lucide="globe-2" class="h-7 w-7"></i>
+       </div>
+       <h3 class="mt-5 font-['Sora'] text-xl font-bold text-white">Importance du Marché Numérique</h3>
+       <p class="mt-3 text-sm leading-7 text-sky-50/70">Comprenez l'économie numérique en rapide évolution et apprenez comment les organisations construisent la visibilité, les ventes et la fidélité client en ligne.</p>
+      </article>
+      <article class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.1s">
+       <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-500/15 text-sky-300"><i data-lucide="plane" class="h-7 w-7"></i>
+       </div>
+       <h3 class="mt-5 font-['Sora'] text-xl font-bold text-white">Potentiel International</h3>
+       <p class="mt-3 text-sm leading-7 text-sky-50/70">Les compétences numériques sont sans frontières. Le programme aide les étudiants à penser mondialement et à se connecter aux tendances internationales.</p>
+      </article>
+      <article class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.15s">
+       <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-500/15 text-sky-300"><i data-lucide="rocket" class="h-7 w-7"></i>
+       </div>
+       <h3 class="mt-5 font-['Sora'] text-xl font-bold text-white">Expérience d'Apprentissage Moderne</h3>
+       <p class="mt-3 text-sm leading-7 text-sky-50/70">Profitez d'un environnement d'apprentissage moderne avec projets, analyses de marché, outils numériques et engagement étudiant actif.</p>
+      </article>
+     </div>
+    </section>
+    <section id="skills" class="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+     <div class="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+      <div class="reveal">
+       <p class="text-sm uppercase tracking-[0.25em] text-sky-300/80">Compétences Acquises</p>
+       <h2 id="skillsTitle" class="section-title mt-3 text-3xl font-extrabold text-white sm:text-4xl">Compétences acquises pendant le programme</h2>
+       <p class="mt-4 text-lg leading-8 text-sky-50/72">Les étudiants développent un profil hybride combinant la pensée commerciale, la créativité numérique, l'exécution pratique et la prise de décision basée sur les données.</p>
+       <div class="mt-8 space-y-4">
+        <div class="glass rounded-2xl p-4">
+         <div class="flex items-start gap-4"><i data-lucide="check-circle-2" class="mt-1 h-5 w-5 text-sky-300"></i>
+          <p class="text-sky-50/80">Un équilibre solide entre communication, stratégie, exécution et innovation numérique.</p>
+         </div>
+        </div>
+        <div class="glass rounded-2xl p-4">
+         <div class="flex items-start gap-4"><i data-lucide="check-circle-2" class="mt-1 h-5 w-5 text-sky-300"></i>
+          <p class="text-sky-50/80">Préparation pratique pour les projets, stages, entrepreneuriat et croissance professionnelle.</p>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="grid gap-5 sm:grid-cols-2">
+       <div class="glass card-hover reveal rounded-[1.75rem] p-6"><i data-lucide="shopping-bag" class="h-8 w-8 text-sky-300"></i>
+        <h3 class="mt-4 font-['Sora'] text-xl font-bold text-white">E-commerce</h3>
+        <p class="mt-2 text-sm leading-7 text-sky-50/72">Modèles commerciaux en ligne, entonnoirs de vente, parcours client numérique et logique de plateforme.</p>
+       </div>
+       <div class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.05s"><i data-lucide="send" class="h-8 w-8 text-sky-300"></i>
+        <h3 class="mt-4 font-['Sora'] text-xl font-bold text-white">Marketing Numérique</h3>
+        <p class="mt-2 text-sm leading-7 text-sky-50/72">Planification campagnes, ciblage d'audience, stratégie contenu et communication de marque.</p>
+       </div>
+       <div class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.1s"><i data-lucide="pie-chart" class="h-8 w-8 text-sky-300"></i>
+        <h3 class="mt-4 font-['Sora'] text-xl font-bold text-white">Analyse de Données</h3>
+        <p class="mt-2 text-sm leading-7 text-sky-50/72">Mesure, interprétation de signaux de marché, lecture de performance et aide à la décision.</p>
+       </div>
+       <div class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.15s"><i data-lucide="layout-template" class="h-8 w-8 text-sky-300"></i>
+        <h3 class="mt-4 font-['Sora'] text-xl font-bold text-white">Création de Sites Web</h3>
+        <p class="mt-2 text-sm leading-7 text-sky-50/72">Construction de sites web modernes et d'interfaces numériques alignées avec les objectifs UX.</p>
+       </div>
+       <div class="glass card-hover reveal rounded-[1.75rem] p-6 sm:col-span-2" style="transition-delay:0.2s"><i data-lucide="folders" class="h-8 w-8 text-sky-300"></i>
+        <h3 class="mt-4 font-['Sora'] text-xl font-bold text-white">Gestion CMS</h3>
+        <p class="mt-2 text-sm leading-7 text-sky-50/72">Travail avec systèmes de gestion contenu pour publier, organiser et optimiser le contenu numérique efficacement.</p>
+       </div>
+      </div>
+     </div>
+    </section>
+    <section id="practical" class="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+     <div class="reveal max-w-3xl">
+      <p class="text-sm uppercase tracking-[0.25em] text-sky-300/80">Formation Pratique</p>
+      <h2 id="practicalTitle" class="section-title mt-3 text-3xl font-extrabold text-white sm:text-4xl">Un programme construit sur la formation pratique</h2>
+      <p class="mt-4 text-lg leading-8 text-sky-50/72">L'expérience d'apprentissage va au-delà de la théorie avec production numérique, travail d'équipe, pensée stratégique et applications du monde réel.</p>
+     </div>
+     <div class="mt-12 grid gap-8 lg:grid-cols-[0.4fr_1fr]">
+      <div class="reveal flex items-start justify-center lg:justify-start">
+       <div class="timeline-line h-full w-1 rounded-full"></div>
+      </div>
+      <div class="space-y-6">
+       <div class="glass card-hover reveal rounded-[1.75rem] p-6">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-start">
+         <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-blue-500/15 text-sky-300"><i data-lucide="monitor-smartphone" class="h-7 w-7"></i>
+         </div>
+         <div>
+          <h3 class="font-['Sora'] text-xl font-bold text-white">Projets de Création de Sites Web</h3>
+          <p class="mt-2 text-sm leading-7 text-sky-50/72">Les étudiants travaillent sur des interfaces numériques et des projets de présence en ligne connectant stratégie et exécution.</p>
+         </div>
+        </div>
+       </div>
+       <div class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.05s">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-start">
+         <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-blue-500/15 text-sky-300"><i data-lucide="badge-dollar-sign" class="h-7 w-7"></i>
+         </div>
+         <div>
+          <h3 class="font-['Sora'] text-xl font-bold text-white">Création de Campagnes Marketing</h3>
+          <p class="mt-2 text-sm leading-7 text-sky-50/72">Concevoir des campagnes avec objectifs clairs, focus audience, planification contenu et logique de performance.</p>
+         </div>
+        </div>
+       </div>
+       <div class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.1s">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-start">
+         <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-blue-500/15 text-sky-300"><i data-lucide="file-search" class="h-7 w-7"></i>
+         </div>
+         <div>
+          <h3 class="font-['Sora'] text-xl font-bold text-white">Études de Cas</h3>
+          <p class="mt-2 text-sm leading-7 text-sky-50/72">Analysez des cas d'affaires, identifiez les opportunités de marché et proposez des solutions numériques ancrées dans la réalité.</p>
+         </div>
+        </div>
+       </div>
+       <div class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.15s">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-start">
+         <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-blue-500/15 text-sky-300"><i data-lucide="lightbulb" class="h-7 w-7"></i>
+         </div>
+         <div>
+          <h3 class="font-['Sora'] text-xl font-bold text-white">Applications du Monde Réel</h3>
+          <p class="mt-2 text-sm leading-7 text-sky-50/72">Apprenez à traduire les concepts en résultats numériques utilisables pertinents pour les organisations et les marchés d'aujourd'hui.</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section>
+    <section id="modules" class="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+     <div class="reveal flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+      <div class="max-w-3xl">
+       <p class="text-sm uppercase tracking-[0.25em] text-sky-300/80">Modules Semestre 5</p>
+       <h2 id="modulesTitle" class="section-title mt-3 text-3xl font-extrabold text-white sm:text-4xl">Modules d'apprentissage du semestre 5</h2>
+       <p class="mt-4 text-lg leading-8 text-sky-50/72">Une structure académique solide qui mélange stratégie, outils, intelligence de marché et pratique commerciale numérique.</p>
+      </div>
+      <div class="rounded-2xl border border-sky-300/15 bg-sky-300/10 px-4 py-2 text-sm text-sky-100">
+       7 modules clés
+      </div>
+     </div>
+     <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+      <div class="glass card-hover reveal rounded-[1.75rem] p-6">
+       <h3 class="font-['Sora'] text-lg font-bold text-white">E-commerce</h3>
+       <p class="mt-2 text-sm text-sky-50/70">Modèles commerciaux numériques, environnements de vente en ligne et stratégie du commerce.</p>
+      </div>
+      <div class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.05s">
+       <h3 class="font-['Sora'] text-lg font-bold text-white">Stratégie Numérique</h3>
+       <p class="mt-2 text-sm text-sky-50/70">Pensée stratégique pour le positionnement, la croissance et la transformation numérique.</p>
+      </div>
+      <div class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.1s">
+       <h3 class="font-['Sora'] text-lg font-bold text-white">Distribution &amp; Marchandisage à l'Ère Numérique</h3>
+       <p class="mt-2 text-sm text-sky-50/70">Approches modernes de distribution et marchandisage adaptés au comportement en ligne.</p>
+      </div>
+      <div class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.15s">
+       <h3 class="font-['Sora'] text-lg font-bold text-white">Systèmes de Gestion de Contenu</h3>
+       <p class="mt-2 text-sm text-sky-50/70">Publication, structuration et gestion du contenu numérique de manière efficace.</p>
+      </div>
+      <div class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.2s">
+       <h3 class="font-['Sora'] text-lg font-bold text-white">Marketing Stratégique &amp; Opérationnel</h3>
+       <p class="mt-2 text-sm text-sky-50/70">De la planification à long terme aux actions concrètes et à l'exécution des campagnes.</p>
+      </div>
+      <div class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.25s">
+       <h3 class="font-['Sora'] text-lg font-bold text-white">Étude de Marché</h3>
+       <p class="mt-2 text-sm text-sky-50/70">Collecte et interprétation des insights de marché pour soutenir les meilleures décisions.</p>
+      </div>
+      <div class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.3s">
+       <h3 class="font-['Sora'] text-lg font-bold text-white">Langues Étrangères</h3>
+       <p class="mt-2 text-sm text-sky-50/70">Maîtrise des langues pour la communication numérique et les opportunités internationales.</p>
+      </div>
+     </div>
+    </section>
+    <section id="professors" class="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+     <div class="reveal max-w-3xl">
+      <p class="text-sm uppercase tracking-[0.25em] text-sky-300/80">Professeurs</p>
+      <h2 class="section-title mt-3 text-3xl font-extrabold text-white sm:text-4xl">Rencontrez l'équipe pédagogique</h2>
+      <p class="mt-4 text-lg leading-8 text-sky-50/72">Une équipe de professeurs soutenant les étudiants à travers l'orientation académique, les insights pratiques et les connaissances numériques.</p>
+     </div>
+     <div class="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+      <div class="glass card-hover reveal rounded-[1.75rem] p-6">
+       <div class="flex items-center gap-4">
+        <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-500/15 text-sky-300">
+         <i data-lucide="user-round" class="h-7 w-7"></i>
+        </div>
+        <div>
+         <h3 class="font-['Sora'] text-lg font-bold text-white">Youness Debnichi</h3>
+         <p class="text-sm text-sky-50/65">Professeur du programme</p>
+        </div>
+       </div>
+      </div>
+      <div class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.05s">
+       <div class="flex items-center gap-4">
+        <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-500/15 text-sky-300">
+         <i data-lucide="user-round" class="h-7 w-7"></i>
+        </div>
+        <div>
+         <h3 class="font-['Sora'] text-lg font-bold text-white">Saad Benchekroun</h3>
+         <p class="text-sm text-sky-50/65">Professeur du programme</p>
+        </div>
+       </div>
+      </div>
+      <div class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.1s">
+       <div class="flex items-center gap-4">
+        <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-500/15 text-sky-300">
+         <i data-lucide="user-round" class="h-7 w-7"></i>
+        </div>
+        <div>
+         <h3 class="font-['Sora'] text-lg font-bold text-white">Fatiha Elagri</h3>
+         <p class="text-sm text-sky-50/65">Professeur du programme</p>
+        </div>
+       </div>
+      </div>
+      <div class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.15s">
+       <div class="flex items-center gap-4">
+        <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-500/15 text-sky-300">
+         <i data-lucide="user-round" class="h-7 w-7"></i>
+        </div>
+        <div>
+         <h3 class="font-['Sora'] text-lg font-bold text-white">Elhanafi Mounir</h3>
+         <p class="text-sm text-sky-50/65">Professeur du programme</p>
+        </div>
+       </div>
+      </div>
+      <div class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.2s">
+       <div class="flex items-center gap-4">
+        <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-500/15 text-sky-300">
+         <i data-lucide="user-round" class="h-7 w-7"></i>
+        </div>
+        <div>
+         <h3 class="font-['Sora'] text-lg font-bold text-white">Youssef Ferhaoui</h3>
+         <p class="text-sm text-sky-50/65">Professeur du programme</p>
+        </div>
+       </div>
+      </div>
+      <div class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.25s">
+       <div class="flex items-center gap-4">
+        <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-500/15 text-sky-300">
+         <i data-lucide="user-round" class="h-7 w-7"></i>
+        </div>
+        <div>
+         <h3 class="font-['Sora'] text-lg font-bold text-white">Abdelhaq Ennoujoum</h3>
+         <p class="text-sm text-sky-50/65">Professeur du programme</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section>
+    <section id="news" class="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+     <div class="reveal flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+      <div class="max-w-3xl">
+       <p class="text-sm uppercase tracking-[0.25em] text-sky-300/80">Actualités &amp; Opportunités</p>
+       <h2 class="section-title mt-3 text-3xl font-extrabold text-white sm:text-4xl">Dernières mises à jour et opportunités étudiantes</h2>
+       <p class="mt-4 text-lg leading-8 text-sky-50/72">Restez informés des événements, des appels à participation et des points forts de l'activité du programme.</p>
+      </div>
+      <div class="flex gap-3"><button id="prevNews" class="rounded-2xl border border-white/10 bg-white/5 p-3 text-white transition hover:bg-white/10" aria-label="Actualité précédente"> <i data-lucide="arrow-left" class="h-5 w-5"></i> </button> <button id="nextNews" class="rounded-2xl border border-white/10 bg-white/5 p-3 text-white transition hover:bg-white/10" aria-label="Actualité suivante"> <i data-lucide="arrow-right" class="h-5 w-5"></i> </button>
+      </div>
+     </div>
+     <div class="mt-10 reveal">
+      <div class="glass rounded-[2rem] p-5 sm:p-6">
+       <div class="news-slide active rounded-[1.5rem] border border-white/10 bg-white/5 p-6">
+        <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+         <div class="max-w-2xl"><span class="inline-flex rounded-full bg-blue-500/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-sky-200">Événement</span>
+          <h3 class="mt-4 font-['Sora'] text-2xl font-bold text-white">Semaine de l'Innovation Numérique</h3>
+          <p class="mt-3 text-sky-50/72">Une semaine de présentations, d'expositions de projets et de discussions inspirantes autour du commerce en ligne et de la croissance numérique.</p>
+         </div>
+         <div class="rounded-[1.5rem] bg-gradient-to-br from-blue-500/20 to-sky-400/10 p-6 text-sky-100"><i data-lucide="calendar-days" class="h-12 w-12"></i>
+         </div>
+        </div>
+       </div>
+       <div class="news-slide rounded-[1.5rem] border border-white/10 bg-white/5 p-6">
+        <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+         <div class="max-w-2xl"><span class="inline-flex rounded-full bg-blue-500/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-sky-200">Opportunité</span>
+          <h3 class="mt-4 font-['Sora'] text-2xl font-bold text-white">Exposition de Projets Étudiants</h3>
+          <p class="mt-3 text-sky-50/72">Une opportunité pour les étudiants de présenter des sites web, des campagnes et des idées de marché développés pendant les activités pratiques.</p>
+         </div>
+         <div class="rounded-[1.5rem] bg-gradient-to-br from-blue-500/20 to-sky-400/10 p-6 text-sky-100"><i data-lucide="presentation" class="h-12 w-12"></i>
+         </div>
+        </div>
+       </div>
+       <div class="news-slide rounded-[1.5rem] border border-white/10 bg-white/5 p-6">
+        <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+         <div class="max-w-2xl"><span class="inline-flex rounded-full bg-blue-500/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-sky-200">Mise à jour</span>
+          <h3 class="mt-4 font-['Sora'] text-2xl font-bold text-white">Nouvelles Sessions de Réseautage</h3>
+          <p class="mt-3 text-sky-50/72">Des réunions interactives et des moments de création de liens pour soutenir la collaboration, la discussion et le partage d'opportunités.</p>
+         </div>
+         <div class="rounded-[1.5rem] bg-gradient-to-br from-blue-500/20 to-sky-400/10 p-6 text-sky-100"><i data-lucide="messages-square" class="h-12 w-12"></i>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section>
+    <section id="stats" class="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+     <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+      <div class="glass reveal rounded-[1.75rem] p-6">
+       <p class="stat-number text-4xl font-extrabold text-white" data-target="120">0</p>
+       <p class="mt-2 text-sky-50/70">Étudiants engagés</p>
+      </div>
+      <div class="glass reveal rounded-[1.75rem] p-6" style="transition-delay:0.05s">
+       <p class="stat-number text-4xl font-extrabold text-white" data-target="85">0</p>
+       <p class="mt-2 text-sky-50/70">Momentum de réussite</p>
+      </div>
+      <div class="glass reveal rounded-[1.75rem] p-6" style="transition-delay:0.1s">
+       <p class="stat-number text-4xl font-extrabold text-white" data-target="12">0</p>
+       <p class="mt-2 text-sky-50/70">Activités basées sur projets</p>
+      </div>
+      <div class="glass reveal rounded-[1.75rem] p-6" style="transition-delay:0.15s">
+       <p class="stat-number text-4xl font-extrabold text-white" data-target="6">0</p>
+       <p class="mt-2 text-sky-50/70">Équipe pédagogique</p>
+      </div>
+     </div>
+    </section>
+    <section id="testimonials" class="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+     <div class="reveal max-w-3xl">
+      <p class="text-sm uppercase tracking-[0.25em] text-sky-300/80">Voix Étudiantes</p>
+      <h2 class="section-title mt-3 text-3xl font-extrabold text-white sm:text-4xl">Ce que cette expérience peut représenter</h2>
+      <p class="mt-4 text-lg leading-8 text-sky-50/72">Une atmosphère académique vibrante où les étudiants construisent la confiance, les idées et les compétences numériques.</p>
+     </div>
+     <div class="mt-10 grid gap-5 lg:grid-cols-3">
+      <div class="glass reveal rounded-[1.75rem] p-6">
+       <p class="text-lg leading-8 text-sky-50/85">"Le programme donne aux étudiants une perspective moderne sur l'entreprise et les outils numériques avec une pertinence pratique forte."</p>
+       <p class="mt-5 font-semibold text-white">— Perspective Étudiante</p>
+      </div>
+      <div class="glass reveal rounded-[1.75rem] p-6" style="transition-delay:0.05s">
+       <p class="text-lg leading-8 text-sky-50/85">"Il connecte créativité, stratégie et technologie d'une manière qui semble alignée avec les besoins actuels du marché."</p>
+       <p class="mt-5 font-semibold text-white">— Voix Apprenant</p>
+      </div>
+      <div class="glass reveal rounded-[1.75rem] p-6" style="transition-delay:0.1s">
+       <p class="text-lg leading-8 text-sky-50/85">"Les projets et les thèmes numériques rendent la formation dynamique, utile et motivante pour les opportunités futures."</p>
+       <p class="mt-5 font-semibold text-white">— Insight Communautaire</p>
+      </div>
+     </div>
+    </section>
+    <section id="careers" class="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+     <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+      <div class="reveal">
+       <p class="text-sm uppercase tracking-[0.25em] text-sky-300/80">Opportunités de Carrière</p>
+       <h2 class="section-title mt-3 text-3xl font-extrabold text-white sm:text-4xl">Chemins que les étudiants peuvent explorer</h2>
+       <p class="mt-4 text-lg leading-8 text-sky-50/72">La formation peut soutenir les futurs rôles dans les domaines du commerce, communication, marketing et production numérique.</p>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2">
+       <div class="glass reveal rounded-2xl p-5">
+        Assistant marketing numérique
+       </div>
+       <div class="glass reveal rounded-2xl p-5" style="transition-delay:0.05s">
+        Responsable de contenu
+       </div>
+       <div class="glass reveal rounded-2xl p-5" style="transition-delay:0.1s">
+        Coordinateur e-commerce
+       </div>
+       <div class="glass reveal rounded-2xl p-5" style="transition-delay:0.15s">
+        Assistant en étude de marché
+       </div>
+       <div class="glass reveal rounded-2xl p-5" style="transition-delay:0.2s">
+        Support de projet numérique
+       </div>
+       <div class="glass reveal rounded-2xl p-5" style="transition-delay:0.25s">
+        Ventures entrepreneuriales numériques
+       </div>
+      </div>
+     </div>
+    </section>
+    <section id="gallery" class="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+     <div class="reveal max-w-3xl">
+      <p class="text-sm uppercase tracking-[0.25em] text-sky-300/80">Galerie</p>
+      <h2 class="section-title mt-3 text-3xl font-extrabold text-white sm:text-4xl">Atmosphère du programme</h2>
+      <p class="mt-4 text-lg leading-8 text-sky-50/72">Un moodboard visuel montrant l'énergie, le travail d'équipe, la culture de présentation et la pratique numérique.</p>
+     </div>
+     <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+      <div class="glass reveal rounded-[1.75rem] p-3">
+       <div class="flex h-56 items-center justify-center rounded-[1.2rem] bg-gradient-to-br from-blue-500/20 to-sky-400/10 text-center">
+        <div>
+         <i data-lucide="monitor-play" class="mx-auto h-12 w-12 text-sky-300"></i>
+         <p class="mt-4 text-sky-50/75">Présentations numériques</p>
+        </div>
+       </div>
+      </div>
+      <div class="glass reveal rounded-[1.75rem] p-3" style="transition-delay:0.05s">
+       <div class="flex h-56 items-center justify-center rounded-[1.2rem] bg-gradient-to-br from-blue-500/20 to-sky-400/10 text-center">
+        <div>
+         <i data-lucide="users-2" class="mx-auto h-12 w-12 text-sky-300"></i>
+         <p class="mt-4 text-sky-50/75">Collaboration d'équipe</p>
+        </div>
+       </div>
+      </div>
+      <div class="glass reveal rounded-[1.75rem] p-3" style="transition-delay:0.1s">
+       <div class="flex h-56 items-center justify-center rounded-[1.2rem] bg-gradient-to-br from-blue-500/20 to-sky-400/10 text-center">
+        <div>
+         <i data-lucide="presentation" class="mx-auto h-12 w-12 text-sky-300"></i>
+         <p class="mt-4 text-sky-50/75">Expositions de projets</p>
+        </div>
+       </div>
+      </div>
+      <div class="glass reveal rounded-[1.75rem] p-3" style="transition-delay:0.15s">
+       <div class="flex h-56 items-center justify-center rounded-[1.2rem] bg-gradient-to-br from-blue-500/20 to-sky-400/10 text-center">
+        <div>
+         <i data-lucide="pen-tool" class="mx-auto h-12 w-12 text-sky-300"></i>
+         <p class="mt-4 text-sky-50/75">Production créative</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section>
+    <section id="video" class="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+     <div class="reveal video-frame rounded-[2rem] border border-white/10 p-6 sm:p-8">
+      <div class="grid gap-6 lg:grid-cols-[1fr_0.8fr] lg:items-center">
+       <div>
+        <p class="text-sm uppercase tracking-[0.25em] text-sky-300/80">Présentation Vidéo</p>
+        <h2 class="section-title mt-3 text-3xl font-extrabold text-white sm:text-4xl">Une introduction visuelle rapide</h2>
+        <p class="mt-4 text-lg leading-8 text-sky-50/72">Ce panneau d'aperçu peut aider à présenter l'esprit du programme de manière simple et moderne.</p>
+       </div>
+       <div class="rounded-[1.5rem] border border-white/10 bg-[#081426] p-5">
+        <div class="flex h-64 items-center justify-center rounded-[1.25rem] bg-gradient-to-br from-blue-500/20 to-sky-400/10"><button id="videoPlayButton" class="glow-button flex items-center gap-3 rounded-full px-6 py-4 font-semibold text-white"> <i data-lucide="play" class="h-5 w-5"></i> <span>Lancer l'intro</span> </button>
+        </div>
+        <p class="mt-4 text-sm text-sky-50/65">Un ton de démonstration court est inclus pour une ambiance de présentation interactive.</p>
+       </div>
+      </div>
+     </div>
+    </section>
+    <section id="location" class="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+     <div class="grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
+      <div class="reveal">
+       <p class="text-sm uppercase tracking-[0.25em] text-sky-300/80">Localisation</p>
+       <h2 class="section-title mt-3 text-3xl font-extrabold text-white sm:text-4xl">Trouvez FP Errachidia</h2>
+       <p class="mt-4 text-lg leading-8 text-sky-50/72">Explorez la localisation de la Faculté Polydisciplinaire Errachidia et facilitez la visite du campus pour les étudiants et visiteurs.</p>
+       <div class="mt-8 glass rounded-[1.75rem] p-5">
+        <div class="flex items-start gap-4"><i data-lucide="map-pin" class="mt-1 h-6 w-6 text-sky-300"></i>
+         <div>
+          <p class="font-semibold text-white">FP Errachidia — Université Moulay Ismail</p>
+          <p class="mt-1 text-sm leading-7 text-sky-50/70">Errachidia, Maroc</p><a href="https://www.google.com/maps/search/Facult%C3%A9+Polydisciplinaire+Errachidia" target="_blank" rel="noopener noreferrer" class="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-sky-300 hover:text-white"> Ouvrir dans Google Maps <i data-lucide="external-link" class="h-4 w-4"></i> </a>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="reveal overflow-hidden rounded-[2rem] border border-white/10 shadow-2xl"><iframe title="Localisation Google Maps de FP Errachidia" class="h-96 w-full border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3359.8479819447697!2d-4.404957!3d31.936!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd0b88880f7c2d37%3A0x6f6f6f6f6f6f6f6f!2sUniversit%C3%A9%20Moulay%20Ismail%20-%20Facult%C3%A9%20Polydisciplinaire%20d'Errachidia!5e0!3m2!1sfr!2sma!4v1234567890"> </iframe>
+      </div>
+     </div>
+    </section>
+    <section id="announcements" class="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+     <div class="reveal max-w-3xl">
+      <p class="text-sm uppercase tracking-[0.25em] text-sky-300/80">Annonces Officielles</p>
+      <h2 class="section-title mt-3 text-3xl font-extrabold text-white sm:text-4xl">Déclarations et notifications administratives</h2>
+      <p class="mt-4 text-lg leading-8 text-sky-50/72">Un espace dédié à la communication importante, aux délais et aux mises à jour institutionnelles.</p>
+     </div>
+     <div class="mt-10 grid gap-5 lg:grid-cols-3">
+      <div class="glass card-hover reveal rounded-[1.75rem] p-6">
+       <h3 class="font-['Sora'] text-xl font-bold text-white">Notification Administrative</h3>
+       <p class="mt-3 text-sm leading-7 text-sky-50/70">Les déclarations importantes relatives aux horaires, soumissions ou procédures académiques peuvent être mises en évidence ici.</p>
+      </div>
+      <div class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.05s">
+       <h3 class="font-['Sora'] text-xl font-bold text-white">Rappel Étudiant</h3>
+       <p class="mt-3 text-sm leading-7 text-sky-50/70">Partagez les délais essentiels et les rappels dans un format structuré et accessible.</p>
+      </div>
+      <div class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.1s">
+       <h3 class="font-['Sora'] text-xl font-bold text-white">Information du Programme</h3>
+       <p class="mt-3 text-sm leading-7 text-sky-50/70">Communiquez les mises à jour des activités, coordination et information officielle du programme.</p>
+      </div>
+     </div>
+    </section>
+    <section id="clubs" class="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+     <div class="reveal max-w-3xl">
+      <p class="text-sm uppercase tracking-[0.25em] text-sky-300/80">Clubs Étudiants</p>
+      <h2 class="section-title mt-3 text-3xl font-extrabold text-white sm:text-4xl">Clubs et activités étudiantes</h2>
+      <p class="mt-4 text-lg leading-8 text-sky-50/72">Encouragez la créativité, la collaboration, le leadership et l'initiative à travers des activités menées par la communauté.</p>
+     </div>
+     <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+      <div class="glass card-hover reveal rounded-[1.75rem] p-6">
+       <i data-lucide="mic-2" class="h-8 w-8 text-sky-300"></i>
+       <h3 class="mt-4 font-['Sora'] text-lg font-bold text-white">Club Média</h3>
+       <p class="mt-2 text-sm text-sky-50/70">Création contenu, communication et couverture d'événements.</p>
+      </div>
+      <div class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.05s">
+       <i data-lucide="lightbulb" class="h-8 w-8 text-sky-300"></i>
+       <h3 class="mt-4 font-['Sora'] text-lg font-bold text-white">Club Innovation</h3>
+       <p class="mt-2 text-sm text-sky-50/70">Idées, entrepreneuriat et résolution de problèmes numériques.</p>
+      </div>
+      <div class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.1s">
+       <i data-lucide="calendar-heart" class="h-8 w-8 text-sky-300"></i>
+       <h3 class="mt-4 font-['Sora'] text-lg font-bold text-white">Club Événements</h3>
+       <p class="mt-2 text-sm text-sky-50/70">Activités campus, moments de réseautage et engagement étudiant.</p>
+      </div>
+      <div class="glass card-hover reveal rounded-[1.75rem] p-6" style="transition-delay:0.15s">
+       <i data-lucide="book-open-check" class="h-8 w-8 text-sky-300"></i>
+       <h3 class="mt-4 font-['Sora'] text-lg font-bold text-white">Cercle d'Apprentissage</h3>
+       <p class="mt-2 text-sm text-sky-50/70">Soutien par les pairs, sessions de discussion et apprentissage numérique partagé.</p>
+      </div>
+     </div>
+    </section>
+    <section id="contact" class="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+     <div class="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+      <div class="reveal">
+       <p class="text-sm uppercase tracking-[0.25em] text-sky-300/80">Formulaire de Réclamation</p>
+       <h2 id="complaintTitle" class="section-title mt-3 text-3xl font-extrabold text-white sm:text-4xl">Envoyer une réclamation ou un message</h2>
+       <p class="mt-4 text-lg leading-8 text-sky-50/72">Les étudiants peuvent partager des préoccupations ou des messages via ce formulaire. Les soumissions sont sauvegardées dans une feuille Canva.</p>
+       <div class="mt-8 glass rounded-[1.75rem] p-6">
+        <div class="flex items-start gap-4"><i data-lucide="shield-check" class="mt-1 h-6 w-6 text-sky-300"></i>
+         <div>
+          <p class="font-semibold text-white">Formulaire convivial</p>
+          <p class="mt-1 text-sm leading-7 text-sky-50/70">Champs simples, validation intégrée et messages de succès clairs.</p>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="glass reveal rounded-[2rem] p-6 sm:p-8">
+       <form id="complaintForm" class="space-y-5">
+        <div><label for="complaintName" class="mb-2 block text-sm font-semibold text-sky-50">Nom</label> <input id="complaintName" name="name" type="text" class="input-style w-full rounded-2xl px-4 py-4" placeholder="Votre nom complet">
+        </div>
+        <div><label for="complaintEmail" class="mb-2 block text-sm font-semibold text-sky-50">Email</label> <input id="complaintEmail" name="email" type="email" class="input-style w-full rounded-2xl px-4 py-4" placeholder="Votre adresse email">
+        </div>
+        <div><label for="complaintMessage" class="mb-2 block text-sm font-semibold text-sky-50">Message</label> <textarea id="complaintMessage" name="message" rows="5" class="input-style w-full rounded-2xl px-4 py-4" placeholder="Écrivez votre réclamation ou message"></textarea>
+        </div>
+        <div id="complaintError" class="hidden rounded-2xl border border-red-400/20 bg-red-500/10 px-4 py-3 text-sm text-red-100"></div>
+        <div id="complaintSuccess" class="hidden rounded-2xl border border-emerald-400/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100"></div>
+        <div id="dataLimitWarning" class="hidden rounded-2xl border border-amber-400/20 bg-amber-500/10 px-4 py-3 text-sm text-amber-100"></div><button id="complaintSubmitButton" type="submit" class="glow-button inline-flex w-full items-center justify-center gap-3 rounded-2xl px-6 py-4 font-semibold text-white"> <span id="complaintSubmitText">Envoyer le message</span> <span id="complaintSpinner" class="spinner hidden"></span> </button>
+       </form>
+      </div>
+     </div>
+    </section>
+    <section id="community" class="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+     <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+      <div class="reveal">
+       <p class="text-sm uppercase tracking-[0.25em] text-sky-300/80">Communauté Étudiante</p>
+       <h2 id="communityTitle" class="section-title mt-3 text-3xl font-extrabold text-white sm:text-4xl">Un espace simple de discussion étudiant</h2>
+       <p class="mt-4 text-lg leading-8 text-sky-50/72">Les étudiants peuvent poser des questions et se répondre mutuellement. Les messages sont sauvegardés dans une feuille Canva pour que la communauté reste disponible.</p>
+       <div class="mt-8 space-y-4">
+        <div class="glass rounded-2xl p-4">
+         <div class="flex items-start gap-4"><i data-lucide="message-circle-more" class="mt-1 h-5 w-5 text-sky-300"></i>
+          <p class="text-sky-50/80">Posez des questions académiques, partagez des conseils et soutenez vos camarades de classe.</p>
+         </div>
+        </div>
+        <div class="glass rounded-2xl p-4">
+         <div class="flex items-start gap-4"><i data-lucide="database" class="mt-1 h-5 w-5 text-sky-300"></i>
+          <p class="text-sky-50/80">Vos soumissions de formulaires et publications de discussion sont persistées dans une feuille Canva.</p>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="space-y-6">
+       <div class="glass reveal rounded-[2rem] p-6">
+        <form id="communityForm" class="space-y-4">
+         <div><label for="communityName" class="mb-2 block text-sm font-semibold text-sky-50">Nom</label> <input id="communityName" type="text" class="input-style w-full rounded-2xl px-4 py-4" placeholder="Votre nom">
+         </div>
+         <div><label for="communityEmail" class="mb-2 block text-sm font-semibold text-sky-50">Email</label> <input id="communityEmail" type="email" class="input-style w-full rounded-2xl px-4 py-4" placeholder="Votre email">
+         </div>
+         <div><label for="communityMessage" class="mb-2 block text-sm font-semibold text-sky-50">Question ou message</label> <textarea id="communityMessage" rows="4" class="input-style w-full rounded-2xl px-4 py-4" placeholder="Posez une question ou partagez quelque chose d'utile"></textarea>
+         </div><input id="communityParentId" type="hidden" value="">
+         <div id="communityError" class="hidden rounded-2xl border border-red-400/20 bg-red-500/10 px-4 py-3 text-sm text-red-100"></div>
+         <div id="communitySuccess" class="hidden rounded-2xl border border-emerald-400/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100"></div>
+         <div class="flex flex-col gap-3 sm:flex-row"><button id="communitySubmitButton" type="submit" class="glow-button inline-flex items-center justify-center gap-3 rounded-2xl px-6 py-4 font-semibold text-white"> <span id="communitySubmitText">Publier dans la communauté</span> <span id="communitySpinner" class="spinner hidden"></span> </button> <button id="communityCancelReply" type="button" class="hidden rounded-2xl border border-white/10 bg-white/5 px-6 py-4 font-semibold text-sky-50 hover:bg-white/10"> Annuler la réponse </button>
+         </div>
+        </form>
+       </div>
+       <div class="glass reveal rounded-[2rem] p-6">
+        <div class="mb-4 flex items-center justify-between">
+         <h3 class="font-['Sora'] text-xl font-bold text-white">Flux de la communauté</h3><span id="communityCount" class="rounded-full bg-sky-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-sky-200">0 publications</span>
+        </div>
+        <div id="communityEmpty" class="rounded-2xl border border-dashed border-white/10 bg-white/5 px-4 py-8 text-center text-sky-50/65">
+         Aucune discussion encore. Soyez le premier à démarrer la conversation.
+        </div>
+        <div id="communityList" class="space-y-4"></div>
+       </div>
+      </div>
+     </div>
+    </section>
+   </main>
+   <footer class="border-t border-white/10 py-10">
+    <div class="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+     <div>
+      <p class="font-['Sora'] text-lg font-bold text-white">E-Business &amp; Marketing Numérique</p>
+      <p id="footerText" class="mt-1 text-sm text-sky-50/65">Université Moulay Ismail – FP Errachidia (TBS) — éducation numérique moderne avec ambition pratique.</p>
+     </div><a href="#home" class="inline-flex items-center gap-2 text-sm font-semibold text-sky-300 hover:text-white"> Retour en haut <i data-lucide="arrow-up" class="h-4 w-4"></i> </a>
+    </div>
+   </footer>
+  </div>
+  <script>
+    const defaultConfig = {
+      background_color: "#07111f",
+      surface_color: "#0f1e34",
+      text_color: "#e6f1ff",
+      primary_action_color: "#3b82f6",
+      secondary_action_color: "#7dd3fc",
+      font_family: "Sora",
+      font_size: 16,
+      hero_title: "Bienvenue en E-Business & Marketing Numérique 🚀",
+      hero_subtitle: "Explorez un programme conçu pour préparer les étudiants ambitieux à l'économie numérique à travers la stratégie, la créativité, l'analyse, le commerce en ligne et les projets concrets à l'Université Moulay Ismail – FP Errachidia.",
+      program_button_text: "Découvrir le programme",
+      community_button_text: "Rejoindre la communauté",
+      why_title: "Pourquoi choisir ce programme ?",
+      skills_title: "Compétences acquises pendant le programme",
+      practical_title: "Un programme construit sur la formation pratique",
+      modules_title: "Modules d'apprentissage du semestre 5",
+      community_title: "Un espace simple de discussion étudiant",
+      complaint_title: "Envoyer une réclamation ou un message",
+      footer_text: "Université Moulay Ismail – FP Errachidia (TBS) — éducation numérique moderne avec ambition pratique."
+    };
+
+    const elements = {};
+    const state = {
+      records: [],
+      complaintSubmitting: false,
+      communitySubmitting: false,
+      deletingId: "",
+      audioContext: null
+    };
+
+    function getConfigValue(key) {
+      if (window.elementSdk && window.elementSdk.config && window.elementSdk.config[key] !== undefined && window.elementSdk.config[key] !== null && window.elementSdk.config[key] !== "") {
+        return window.elementSdk.config[key];
+      }
+      return defaultConfig[key];
+    }
+
+    function setupElements() {
+      elements.heroTitle = document.getElementById("heroTitle");
+      elements.heroSubtitle = document.getElementById("heroSubtitle");
+      elements.programButton = document.getElementById("programButton");
+      elements.communityButton = document.getElementById("communityButton");
+      elements.whyTitle = document.getElementById("whyTitle");
+      elements.skillsTitle = document.getElementById("skillsTitle");
+      elements.practicalTitle = document.getElementById("practicalTitle");
+      elements.modulesTitle = document.getElementById("modulesTitle");
+      elements.communityTitle = document.getElementById("communityTitle");
+      elements.complaintTitle = document.getElementById("complaintTitle");
+      elements.footerText = document.getElementById("footerText");
+      elements.communityList = document.getElementById("communityList");
+      elements.communityEmpty = document.getElementById("communityEmpty");
+      elements.communityCount = document.getElementById("communityCount");
+      elements.dataLimitWarning = document.getElementById("dataLimitWarning");
+      elements.complaintError = document.getElementById("complaintError");
+      elements.complaintSuccess = document.getElementById("complaintSuccess");
+      elements.communityError = document.getElementById("communityError");
+      elements.communitySuccess = document.getElementById("communitySuccess");
+      elements.communityParentId = document.getElementById("communityParentId");
+      elements.communityCancelReply = document.getElementById("communityCancelReply");
+      elements.communitySubmitText = document.getElementById("communitySubmitText");
+      elements.communitySpinner = document.getElementById("communitySpinner");
+      elements.communitySubmitButton = document.getElementById("communitySubmitButton");
+      elements.complaintSubmitText = document.getElementById("complaintSubmitText");
+      elements.complaintSpinner = document.getElementById("complaintSpinner");
+      elements.complaintSubmitButton = document.getElementById("complaintSubmitButton");
+    }
+
+    function applyTheme(config) {
+      const background = config.background_color || defaultConfig.background_color;
+      const surface = config.surface_color || defaultConfig.surface_color;
+      const text = config.text_color || defaultConfig.text_color;
+      const primary = config.primary_action_color || defaultConfig.primary_action_color;
+      const secondary = config.secondary_action_color || defaultConfig.secondary_action_color;
+      const font = config.font_family || defaultConfig.font_family;
+      const base = Number(config.font_size || defaultConfig.font_size);
+
+      document.documentElement.style.setProperty("--background-color", background);
+      document.documentElement.style.setProperty("--surface-color", surface);
+      document.documentElement.style.setProperty("--text-color", text);
+      document.documentElement.style.setProperty("--primary-action", primary);
+      document.documentElement.style.setProperty("--secondary-action", secondary);
+
+      document.body.style.background = `
+        radial-gradient(circle at 20% 20%, ${hexToRgba(primary, 0.28)}, transparent 26%),
+        radial-gradient(circle at 80% 10%, ${hexToRgba(secondary, 0.14)}, transparent 24%),
+        radial-gradient(circle at 50% 80%, ${hexToRgba(primary, 0.18)}, transparent 28%),
+        linear-gradient(145deg, #040b16 0%, ${hexToRgba(background, 0.96)} 40%, #0a1730 100%)
+      `;
+
+      document.querySelectorAll(".glass").forEach((card) => {
+        card.style.background = `linear-gradient(180deg, ${hexToRgba(surface, 0.88)}, rgba(10,20,36,0.78))`;
+        card.style.borderColor = hexToRgba(secondary, 0.16);
+      });
+
+      document.querySelectorAll(".section-title, .stat-number, h1, h2, h3").forEach((el) => {
+        el.style.fontFamily = `${font}, "Manrope", sans-serif`;
+      });
+
+      document.querySelectorAll("body, p, a, button, input, textarea, span, label").forEach((el) => {
+        el.style.fontFamily = `${font}, "Manrope", sans-serif`;
+      });
+
+      elements.heroTitle.style.fontSize = `${base * 3.2}px`;
+      elements.heroSubtitle.style.fontSize = `${base * 1.1}px`;
+      document.querySelectorAll(".section-title").forEach((el) => {
+        el.style.fontSize = `${base * 2.1}px`;
+      });
+      document.querySelectorAll("p, label, input, textarea, button, a").forEach((el) => {
+        if (!el.classList.contains("section-title")) {
+          el.style.fontSize = `${base}px`;
+        }
+      });
+
+      elements.programButton.style.background = `linear-gradient(135deg, ${primary}, ${secondary})`;
+      elements.programButton.style.color = "#ffffff";
+      elements.communitySubmitButton.style.background = `linear-gradient(135deg, ${primary}, ${secondary})`;
+      elements.communitySubmitButton.style.color = "#ffffff";
+      elements.complaintSubmitButton.style.background = `linear-gradient(135deg, ${primary}, ${secondary})`;
+      elements.complaintSubmitButton.style.color = "#ffffff";
+
+      document.querySelectorAll(".text-sky-300").forEach((el) => {
+        el.style.color = secondary;
+      });
+    }
+
+    function hexToRgba(hex, alpha) {
+      const clean = hex.replace("#", "");
+      const full = clean.length === 3 ? clean.split("").map((c) => c + c).join("") : clean;
+      const bigint = parseInt(full, 16);
+      const r = (bigint >> 16) & 255;
+      const g = (bigint >> 8) & 255;
+      const b = bigint & 255;
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+
+    async function onConfigChange(config) {
+      elements.heroTitle.textContent = config.hero_title || defaultConfig.hero_title;
+      elements.heroSubtitle.textContent = config.hero_subtitle || defaultConfig.hero_subtitle;
+      elements.programButton.querySelector("span").textContent = config.program_button_text || defaultConfig.program_button_text;
+      elements.communityButton.querySelector("span").textContent = config.community_button_text || defaultConfig.community_button_text;
+      elements.whyTitle.textContent = config.why_title || defaultConfig.why_title;
+      elements.skillsTitle.textContent = config.skills_title || defaultConfig.skills_title;
+      elements.practicalTitle.textContent = config.practical_title || defaultConfig.practical_title;
+      elements.modulesTitle.textContent = config.modules_title || defaultConfig.modules_title;
+      elements.communityTitle.textContent = config.community_title || defaultConfig.community_title;
+      elements.complaintTitle.textContent = config.complaint_title || defaultConfig.complaint_title;
+      elements.footerText.textContent = config.footer_text || defaultConfig.footer_text;
+      applyTheme(config);
+    }
+
+    function initElementSdk() {
+      if (!window.elementSdk) return;
+
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => window.elementSdk.setConfig({ background_color: value })
+            },
+            {
+              get: () => config.surface_color || defaultConfig.surface_color,
+              set: (value) => window.elementSdk.setConfig({ surface_color: value })
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => window.elementSdk.setConfig({ text_color: value })
+            },
+            {
+              get: () => config.primary_action_color || defaultConfig.primary_action_color,
+              set: (value) => window.elementSdk.setConfig({ primary_action_color: value })
+            },
+            {
+              get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+              set: (value) => window.elementSdk.setConfig({ secondary_action_color: value })
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => window.elementSdk.setConfig({ font_family: value })
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (value) => window.elementSdk.setConfig({ font_size: value })
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["hero_title", config.hero_title || defaultConfig.hero_title],
+          ["hero_subtitle", config.hero_subtitle || defaultConfig.hero_subtitle],
+          ["program_button_text", config.program_button_text || defaultConfig.program_button_text],
+          ["community_button_text", config.community_button_text || defaultConfig.community_button_text],
+          ["why_title", config.why_title || defaultConfig.why_title],
+          ["skills_title", config.skills_title || defaultConfig.skills_title],
+          ["practical_title", config.practical_title || defaultConfig.practical_title],
+          ["modules_title", config.modules_title || defaultConfig.modules_title],
+          ["community_title", config.community_title || defaultConfig.community_title],
+          ["complaint_title", config.complaint_title || defaultConfig.complaint_title],
+          ["footer_text", config.footer_text || defaultConfig.footer_text]
+        ])
+      });
+
+      onConfigChange(window.elementSdk.config || defaultConfig);
+    }
+
+    function showMessage(el, message) {
+      el.textContent = message;
+      el.classList.remove("hidden");
+    }
+
+    function hideMessage(el) {
+      el.textContent = "";
+      el.classList.add("hidden");
+    }
+
+    function validateEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function setComplaintLoading(loading) {
+      state.complaintSubmitting = loading;
+      elements.complaintSubmitButton.disabled = loading;
+      elements.complaintSubmitButton.classList.toggle("opacity-70", loading);
+      elements.complaintSubmitButton.classList.toggle("cursor-not-allowed", loading);
+      elements.complaintSpinner.classList.toggle("hidden", !loading);
+      elements.complaintSubmitText.textContent = loading ? "Envoi..." : "Envoyer le message";
+    }
+
+    function setCommunityLoading(loading) {
+      state.communitySubmitting = loading;
+      elements.communitySubmitButton.disabled = loading;
+      elements.communitySubmitButton.classList.toggle("opacity-70", loading);
+      elements.communitySubmitButton.classList.toggle("cursor-not-allowed", loading);
+      elements.communitySpinner.classList.toggle("hidden", !loading);
+      elements.communitySubmitText.textContent = loading
+        ? "Publication..."
+        : (elements.communityParentId.value ? "Répondre au message" : "Publier dans la communauté");
+    }
+
+    function checkLimitBeforeCreate() {
+      hideMessage(elements.dataLimitWarning);
+      if (state.records.length >= 999) {
+        showMessage(elements.dataLimitWarning, "Limite maximale atteinte. Veuillez supprimer certains éléments avant d'en ajouter d'autres.");
+        return false;
+      }
+      if (state.records.length >= 950) {
+        showMessage(elements.dataLimitWarning, "Vous approchez de la limite de stockage. Envisagez de supprimer les éléments plus anciens si nécessaire.");
+      }
+      return true;
+    }
+
+    async function handleComplaintSubmit(event) {
+      event.preventDefault();
+      hideMessage(elements.complaintError);
+      hideMessage(elements.complaintSuccess);
+
+      const name = document.getElementById("complaintName").value.trim();
+      const email = document.getElementById("complaintEmail").value.trim();
+      const message = document.getElementById("complaintMessage").value.trim();
+
+      if (!name || !email || !message) {
+        showMessage(elements.complaintError, "Veuillez remplir tous les champs.");
+        return;
+      }
+
+      if (!validateEmail(email)) {
+        showMessage(elements.complaintError, "Veuillez entrer une adresse email valide.");
+        return;
+      }
+
+      if (!window.dataSdk) {
+        showMessage(elements.complaintError, "La sauvegarde n'est pas disponible en ce moment.");
+        return;
+      }
+
+      if (!checkLimitBeforeCreate()) return;
+
+      setComplaintLoading(true);
+      const result = await window.dataSdk.create({
+        type: "complaint",
+        author_name: name,
+        author_email: email,
+        message: message,
+        created_at: new Date().toISOString(),
+        parent_id: ""
+      });
+
+      setComplaintLoading(false);
+
+      if (result.isOk) {
+        document.getElementById("complaintForm").reset();
+        showMessage(elements.complaintSuccess, "Votre message a été envoyé avec succès.");
+      } else {
+        showMessage(elements.complaintError, "Une erreur s'est produite lors de la sauvegarde de votre message. Veuillez réessayer.");
+      }
+    }
+
+    async function handleCommunitySubmit(event) {
+      event.preventDefault();
+      hideMessage(elements.communityError);
+      hideMessage(elements.communitySuccess);
+
+      const name = document.getElementById("communityName").value.trim();
+      const email = document.getElementById("communityEmail").value.trim();
+      const message = document.getElementById("communityMessage").value.trim();
+      const parentId = elements.communityParentId.value;
+
+      if (!name || !email || !message) {
+        showMessage(elements.communityError, "Veuillez remplir tous les champs avant de publier.");
+        return;
+      }
+
+      if (!validateEmail(email)) {
+        showMessage(elements.communityError, "Veuillez entrer une adresse email valide.");
+        return;
+      }
+
+      if (!window.dataSdk) {
+        showMessage(elements.communityError, "La sauvegarde n'est pas disponible en ce moment.");
+        return;
+      }
+
+      if (!checkLimitBeforeCreate()) return;
+
+      setCommunityLoading(true);
+      const result = await window.dataSdk.create({
+        type: "community",
+        author_name: name,
+        author_email: email,
+        message: message,
+        created_at: new Date().toISOString(),
+        parent_id: parentId || ""
+      });
+      setCommunityLoading(false);
+
+      if (result.isOk) {
+        document.getElementById("communityForm").reset();
+        elements.communityParentId.value = "";
+        elements.communityCancelReply.classList.add("hidden");
+        setCommunityLoading(false);
+        showMessage(elements.communitySuccess, parentId ? "Votre réponse a été publiée." : "Votre message a été publié.");
+      } else {
+        showMessage(elements.communityError, "Une erreur s'est produite lors de la publication. Veuillez réessayer.");
+      }
+    }
+
+    function createForumItem(record, replies) {
+      const wrapper = document.createElement("article");
+      wrapper.className = "forum-item rounded-[1.5rem] border border-white/10 bg-white/5 p-5";
+      wrapper.dataset.backendId = record.__backendId;
+
+      const date = new Date(record.created_at);
+      const readableDate = isNaN(date.getTime()) ? "Récemment" : date.toLocaleDateString("fr-FR", { year: "numeric", month: "short", day: "numeric" });
+
+      wrapper.innerHTML = `
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div class="flex-1">
+            <div class="flex flex-wrap items-center gap-3">
+              <span class="rounded-full bg-sky-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-sky-200">Étudiant</span>
+              <span class="text-xs text-sky-50/55">${readableDate}</span>
+            </div>
+            <h4 class="mt-3 font-['Sora'] text-lg font-bold text-white">${escapeHtml(record.author_name || "Étudiant")}</h4>
+            <p class="mt-3 whitespace-pre-wrap text-sm leading-7 text-sky-50/76">${escapeHtml(record.message || "")}</p>
+          </div>
+          <div class="flex flex-row gap-2 sm:flex-col">
+            <button type="button" class="reply-btn rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-sky-100 hover:bg-white/10">Répondre</button>
+            <button type="button" class="delete-btn rounded-xl border border-red-400/15 bg-red-500/10 px-4 py-2 text-sm font-semibold text-red-100 hover:bg-red-500/15">Supprimer</button>
+          </div>
+        </div>
+        <div class="confirm-delete hidden mt-4 rounded-2xl border border-amber-400/20 bg-amber-500/10 p-4">
+          <p class="text-sm text-amber-100">Supprimer ce message ?</p>
+          <div class="mt-3 flex gap-2">
+            <button type="button" class="confirm-delete-btn rounded-xl bg-red-500/80 px-4 py-2 text-sm font-semibold text-white hover:bg-red-500">Oui, supprimer</button>
+            <button type="button" class="cancel-delete-btn rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-sky-50 hover:bg-white/10">Annuler</button>
+          </div>
+        </div>
+        <div class="replies mt-4 space-y-3"></div>
+      `;
+
+      const repliesContainer = wrapper.querySelector(".replies");
+      replies.forEach((reply) => {
+        repliesContainer.appendChild(createReplyItem(reply));
+      });
+
+      wrapper.querySelector(".reply-btn").addEventListener("click", () => {
+        elements.communityParentId.value = record.__backendId;
+        elements.communityCancelReply.classList.remove("hidden");
+        document.getElementById("communityMessage").focus();
+        hideMessage(elements.communitySuccess);
+        hideMessage(elements.communityError);
+        setCommunityLoading(false);
+        elements.communitySubmitText.textContent = "Répondre au message";
+      });
+
+      const confirmBox = wrapper.querySelector(".confirm-delete");
+      wrapper.querySelector(".delete-btn").addEventListener("click", () => {
+        confirmBox.classList.remove("hidden");
+      });
+
+      wrapper.querySelector(".cancel-delete-btn").addEventListener("click", () => {
+        confirmBox.classList.add("hidden");
+      });
+
+      wrapper.querySelector(".confirm-delete-btn").addEventListener("click", async () => {
+        await deleteRecord(record);
+      });
+
+      return wrapper;
+    }
+
+    function createReplyItem(record) {
+      const reply = document.createElement("div");
+      reply.className = "ml-0 rounded-2xl border border-white/10 bg-[#0a1728] p-4 sm:ml-8";
+      reply.dataset.backendId = record.__backendId;
+
+      const date = new Date(record.created_at);
+      const readableDate = isNaN(date.getTime()) ? "Récemment" : date.toLocaleDateString("fr-FR", { month: "short", day: "numeric" });
+
+      reply.innerHTML = `
+        <div class="flex items-center justify-between gap-4">
+          <div>
+            <p class="font-semibold text-white">${escapeHtml(record.author_name || "Étudiant")}</p>
+            <p class="mt-1 text-xs text-sky-50/50">${readableDate}</p>
+          </div>
+          <button type="button" class="delete-reply-btn rounded-xl border border-red-400/15 bg-red-500/10 px-3 py-2 text-xs font-semibold text-red-100 hover:bg-red-500/15">Supprimer</button>
+        </div>
+        <p class="mt-3 whitespace-pre-wrap text-sm leading-7 text-sky-50/72">${escapeHtml(record.message || "")}</p>
+        <div class="confirm-delete-reply hidden mt-3 rounded-2xl border border-amber-400/20 bg-amber-500/10 p-3">
+          <p class="text-sm text-amber-100">Supprimer cette réponse ?</p>
+          <div class="mt-3 flex gap-2">
+            <button type="button" class="confirm-delete-reply-btn rounded-xl bg-red-500/80 px-4 py-2 text-sm font-semibold text-white hover:bg-red-500">Oui</button>
+            <button type="button" class="cancel-delete-reply-btn rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-sky-50 hover:bg-white/10">Annuler</button>
+          </div>
+        </div>
+      `;
+
+      const confirmBox = reply.querySelector(".confirm-delete-reply");
+      reply.querySelector(".delete-reply-btn").addEventListener("click", () => {
+        confirmBox.classList.remove("hidden");
+      });
+      reply.querySelector(".cancel-delete-reply-btn").addEventListener("click", () => {
+        confirmBox.classList.add("hidden");
+      });
+      reply.querySelector(".confirm-delete-reply-btn").addEventListener("click", async () => {
+        await deleteRecord(record);
+      });
+
+      return reply;
+    }
+
+    async function deleteRecord(record) {
+      hideMessage(elements.communityError);
+      hideMessage(elements.communitySuccess);
+
+      if (!window.dataSdk) {
+        showMessage(elements.communityError, "La suppression n'est pas disponible en ce moment.");
+        return;
+      }
+
+      const result = await window.dataSdk.delete(record);
+      if (result.isOk) {
+        showMessage(elements.communitySuccess, "Élément supprimé avec succès.");
+      } else {
+        showMessage(elements.communityError, "Une erreur s'est produite lors de la suppression. Veuillez réessayer.");
+      }
+    }
+
+    function syncCommunityUI() {
+      const posts = state.records
+        .filter((record) => record.type === "community" && !record.parent_id)
+        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+      const replies = state.records
+        .filter((record) => record.type === "community" && record.parent_id);
+
+      const existing = new Map(Array.from(elements.communityList.children).map((el) => [el.dataset.backendId, el]));
+      const activeIds = new Set();
+
+      posts.forEach((post) => {
+        activeIds.add(post.__backendId);
+        const postReplies = replies
+          .filter((reply) => reply.parent_id === post.__backendId)
+          .sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+
+        let item = existing.get(post.__backendId);
+        if (!item) {
+          item = createForumItem(post, postReplies);
+          elements.communityList.appendChild(item);
+        } else {
+          const newItem = createForumItem(post, postReplies);
+          elements.communityList.replaceChild(newItem, item);
+        }
+      });
+
+      existing.forEach((el, id) => {
+        if (!activeIds.has(id)) {
+          el.remove();
+        }
+      });
+
+      elements.communityEmpty.classList.toggle("hidden", posts.length > 0);
+      const communityCount = state.records.filter((record) => record.type === "community").length;
+      elements.communityCount.textContent = `${communityCount} ${communityCount === 1 ? "publication" : "publications"}`;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    async function initDataSdk() {
+      if (!window.dataSdk) return;
+
+      const handler = {
+        onDataChanged(data) {
+          state.records = data.slice();
+          syncCommunityUI();
+          checkLimitBeforeCreate();
+        }
+      };
+
+      const initResult = await window.dataSdk.init(handler);
+      if (!initResult.isOk) {
+        showMessage(elements.communityError, "L'espace de discussion n'a pas pu se connecter aux données sauvegardées.");
+      }
+    }
+
+    function initScrollReveal() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+          }
+        });
+      }, { threshold: 0.15 });
+
+      document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+    }
+
+    function initNewsSlider() {
+      const slides = Array.from(document.querySelectorAll(".news-slide"));
+      let index = 0;
+
+      function showSlide(nextIndex) {
+        slides[index].classList.remove("active");
+        index = (nextIndex + slides.length) % slides.length;
+        slides[index].classList.add("active");
+      }
+
+      document.getElementById("nextNews").addEventListener("click", () => showSlide(index + 1));
+      document.getElementById("prevNews").addEventListener("click", () => showSlide(index - 1));
+
+      setInterval(() => showSlide(index + 1), 5000);
+    }
+
+    function initStats() {
+      const stats = document.querySelectorAll("[data-target]");
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          const target = Number(el.getAttribute("data-target"));
+          let current = 0;
+          const step = Math.max(1, Math.floor(target / 40));
+          const timer = setInterval(() => {
+            current += step;
+            if (current >= target) {
+              current = target;
+              clearInterval(timer);
+            }
+            el.textContent = `${current}${target === 85 ? "%" : "+"}`.replace("6+", "6");
+          }, 32);
+          observer.unobserve(el);
+        });
+      }, { threshold: 0.5 });
+
+      stats.forEach((el) => observer.observe(el));
+    }
+
+    function initNav() {
+      const button = document.getElementById("mobileMenuButton");
+      const menu = document.getElementById("mobileMenu");
+      button.addEventListener("click", () => {
+        menu.classList.toggle("hidden");
+      });
+
+      menu.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => menu.classList.add("hidden"));
+      });
+    }
+
+    function initForms() {
+      document.getElementById("complaintForm").addEventListener("submit", handleComplaintSubmit);
+      document.getElementById("communityForm").addEventListener("submit", handleCommunitySubmit);
+      elements.communityCancelReply.addEventListener("click", () => {
+        elements.communityParentId.value = "";
+        elements.communityCancelReply.classList.add("hidden");
+        elements.communitySubmitText.textContent = "Publier dans la communauté";
+      });
+    }
+
+    function initAudio() {
+      const playButton = document.getElementById("videoPlayButton");
+      playButton.addEventListener("click", () => {
+        if (!state.audioContext) {
+          state.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        const ctx = state.audioContext;
+        const oscillator = ctx.createOscillator();
+        const gainNode = ctx.createGain();
+        oscillator.type = "sine";
+        oscillator.frequency.setValueAtTime(440, ctx.currentTime);
+        oscillator.frequency.linearRampToValueAtTime(660, ctx.currentTime + 0.4);
+        oscillator.frequency.linearRampToValueAtTime(520, ctx.currentTime + 0.8);
+        gainNode.gain.setValueAtTime(0.0001, ctx.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.06, ctx.currentTime + 0.08);
+        gainNode.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.2);
+        oscillator.connect(gainNode);
+        gainNode.connect(ctx.destination);
+        oscillator.start();
+        oscillator.stop(ctx.currentTime + 1.2);
+      });
+    }
+
+    function initIcons() {
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    }
+
+    setupElements();
+    initElementSdk();
+    initDataSdk();
+    initScrollReveal();
+    initNewsSlider();
+    initStats();
+    initNav();
+    initForms();
+    initAudio();
+    initIcons();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e2ed7510458ad9d',t:'MTc3NDYxOTE4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
